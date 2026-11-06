@@ -2,6 +2,23 @@
 
 # OmaPix Icon
 
+## Request an icon
+
+Missing a pixel icon for an app you use? Run this on your Omarchy machine:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/tools/icon-request.sh | bash
+```
+
+It finds every app in your launcher that OmaPixIcon doesn't cover yet and saves `~/iconrequest.zip`. The zip contains each app's name, `Icon=` name, `.desktop` file, package or Flatpak id, and its current icon as a reference. It only reads your launchers and changes nothing on your system.
+
+Then **[open an icon request →](https://github.com/Raiden-MeixElysia/OmaPixIcon/issues/new?template=icon-request.yml)** and drag `iconrequest.zip` into the form.
+
+If you'd rather not run the script, open the request anyway and include:
+- the app's name and where you got it (AUR, Flatpak, AppImage, web app)
+- the `Icon=` line from its `.desktop` file (`grep ^Icon= ~/.local/share/applications/<app>.desktop /usr/share/applications/<app>.desktop`)
+- a link to the official logo
+
 A 16-bit pixel-art icon theme for [Omarchy](https://omarchy.org). Every icon is a
 **64×64 high-resolution pixel sprite**, shipped as crisp SVG with an irregular silhouette (the object
 itself, never a rounded-square tile), a single ink outline, top-left lighting and

@@ -1,0 +1,31 @@
+name: Icon request
+description: Ask for pixel icons for apps that OmaPixIcon doesn't cover yet
+title: "[Icon request] "
+labels: ["icon request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Run this on your Omarchy machine first. It only reads your launchers and writes `~/iconrequest.zip`:
+
+        ```bash
+        curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/tools/icon-request.sh | bash
+        ```
+  - type: textarea
+    id: zip
+    attributes:
+      label: iconrequest.zip
+      description: Drag `~/iconrequest.zip` into this box. It lists each app's name, `Icon=` name, desktop file, package and current icon.
+      placeholder: Drop the zip here
+    validations:
+      required: true
+  - type: textarea
+    id: apps
+    attributes:
+      label: Apps you care about most
+      description: Optional. Paste the app list the script printed, or name the ones to draw first.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Optional. Where you got the app (AUR, Flatpak, AppImage, web app), a link to its logo, or design ideas.
