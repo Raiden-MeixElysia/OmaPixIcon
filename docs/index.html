@@ -32,7 +32,7 @@ header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-item
 button,.chip{font:600 var(--s-1)/1 var(--mono);color:var(--fg);background:var(--panel);border:2px solid var(--line);padding:8px 10px;cursor:pointer;letter-spacing:.04em}
 button:hover,.chip:hover{border-color:var(--accent)}
 button:focus-visible,.chip:focus-visible,input:focus-visible,.cell:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.chip[aria-pressed=true]{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+.chip[aria-pressed=true],#crt[aria-pressed=true]{background:var(--accent);color:var(--ink);border-color:var(--accent)}
 h2{font-size:var(--s-1);text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin:0 0 10px;font-weight:600}
 .palettes{display:flex;flex-wrap:wrap;gap:6px}
 .pal{display:flex;align-items:center;gap:8px;padding:6px 9px}
@@ -243,7 +243,7 @@ $('#dclose').onclick=()=>$('#dlg').close();
 $('#dlg').addEventListener('click',e=>{ if(e.target===$('#dlg')) $('#dlg').close(); });
 $('#q').addEventListener('input',e=>{q=e.target.value;renderGrid();});
 $('#zoom').onclick=()=>{ scale=scale===1?2:1; $('#zoom').textContent=`SIZE ${64*scale}PX`; renderGrid(); };
-$('#crt').onclick=()=>{ const on=document.body.classList.toggle('crt'); $('#crt').setAttribute('aria-pressed',on); };
+$('#crt').onclick=()=>{ const on=document.body.classList.toggle('crt'); $('#crt').setAttribute('aria-pressed',on); $('#crt').textContent=on?'CRT SCANLINES ON':'CRT SCANLINES'; };
 $('#copy').onclick=async()=>{ const t=$('#cmd').textContent.replace(/^\$\s*/,'');
   try{ await navigator.clipboard.writeText(t); $('#copy').textContent='COPIED'; }
   catch(e){ const r=document.createRange(); r.selectNodeContents($('#cmd')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $('#copy').textContent='SELECTED'; }
