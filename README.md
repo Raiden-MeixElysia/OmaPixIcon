@@ -111,6 +111,6 @@ def my_app(c):
 
 ## License
 
-Code: MIT. Artwork: CC BY-SA 4.0. Brand icons are pixel reinterpretations of
+[MIT](LICENSE), for both the code and the artwork. Brand icons are pixel reinterpretations of
 trademarks that belong to their owners, included for identification in the
 spirit of other freedesktop icon themes.

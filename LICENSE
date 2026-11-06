@@ -1,4 +1,4 @@
-MIT License (code: engine/, build.py, install.sh, docs/)
+MIT License
 
 Copyright (c) 2026 Raiden-MeixElysia
 
@@ -21,6 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ---------------------------------------------------------------------------
-Artwork (icons/*.py, data/icons.json and everything rendered from them) is
-licensed under Creative Commons Attribution-ShareAlike 4.0 International.
-Brand marks depicted remain the property of their respective owners.
+This license covers everything in this repository, code and artwork alike.
+Brand logos depicted in the icons are trademarks of their respective owners;
+the MIT license grants no rights to those trademarks.
