@@ -2,6 +2,8 @@
 
 # OmaPix Icon
 
+**[Open the live gallery →](https://raiden-meixelysia.github.io/OmaPixIcon/)** Browse all 1,891 icons, switch between 25 palettes and inspect each pixel.
+
 ## Request an icon
 
 Missing a pixel icon for an app you use? Run this on your Omarchy machine:
