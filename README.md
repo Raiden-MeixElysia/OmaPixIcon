@@ -4,6 +4,8 @@
 
 **[Open the live gallery →](https://raiden-meixelysia.github.io/OmaPixIcon/)** Browse all 1,891 icons, switch between 25 palettes and inspect each pixel.
 
+<p align="center"><a href="https://raiden-meixelysia.github.io/OmaPixIcon/"><img src="docs/gallery.png" alt="The OmaPix gallery with CRT scanlines on" width="100%"></a></p>
+
 ## Request an icon
 
 Missing a pixel icon for an app you use? Run this on your Omarchy machine:
