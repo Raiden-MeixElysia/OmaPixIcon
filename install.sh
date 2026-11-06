@@ -115,7 +115,9 @@ new="$THEME_DIR.new"
 rm -rf "$new"
 python3 "$SRC/engine/render.py" --out "$new" --inherits "$inherit,Yaru,Adwaita,hicolor" "${args[@]}" | sed "s/^/  /"
 rm -rf "$THEME_DIR" && mv "$new" "$THEME_DIR"
-gtk-update-icon-cache -f -q -t "$THEME_DIR" 2>/dev/null || true
+# No icon-theme.cache: GTK rejects caches for themes this large, and a stale
+# cache would pin old colours. GTK and Qt read the SVG folder directly.
+rm -f "$THEME_DIR/icon-theme.cache" "$THEME_DIR/.icon-theme.cache"
 
 # 4. theme-switch hook: Omarchy resets the icon theme on every switch; put ours back
 mkdir -p "$(dirname "$HOOK")"
@@ -135,7 +137,11 @@ if [[ $PALETTE == sync && -f $OT/colors.toml ]]; then
   new="$THEME_DIR.new"; rm -rf "$new"
   python3 "$SRC/engine/render.py" --out "$new" --colors "$OT/colors.toml" --inherits "$inherit,Yaru,Adwaita,hicolor" >/dev/null &&
     rm -rf "$THEME_DIR" && mv "$new" "$THEME_DIR"
-  gtk-update-icon-cache -f -q -t "$THEME_DIR" 2>/dev/null
+  rm -f "$THEME_DIR/icon-theme.cache" "$THEME_DIR/.icon-theme.cache"
+  # Running GTK/Qt apps only reload icons when the theme *name* changes, and it is
+  # still "OmaPixIcon". Flip to the fallback theme and back so they repaint now.
+  gsettings set org.gnome.desktop.interface icon-theme "$inherit"
+  sleep 0.3
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
   (omarchy-restart-shell >/dev/null 2>&1 &)
 else
