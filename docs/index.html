@@ -1,0 +1,251 @@
+<title>OmaPix Icons</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap">
+<style>
+/* Layout: a sprite-sheet — one live palette drives page + every icon; header, swap strip, then the full sheet. */
+:root{
+  --bg:#1c1a24; --panel:#26232f; --line:#3a3646; --ink:#0e0d12;
+  --fg:#f6f1e4; --dim:#a7a1b4; --accent:#3fb58f;
+  --mono:"JetBrains Mono",ui-monospace,"DejaVu Sans Mono",Menlo,monospace;
+  --s-1:12px; --s0:14px; --s1:16px; --s2:20px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 var(--s0)/1.55 var(--mono);transition:background .35s}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end}
+@media (max-width:760px){header{grid-template-columns:1fr}}
+#logo{max-width:100%;height:auto}
+.lede{color:var(--dim);max-width:62ch;margin:10px 0 0}
+.lede b{color:var(--fg);font-weight:600}
+.stats{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:var(--s-1);color:var(--dim);font-variant-numeric:tabular-nums;margin-top:12px}
+.stats span b{color:var(--accent);font-weight:800}
+.install{background:var(--ink);border:2px solid var(--line);padding:12px 14px;display:flex;gap:12px;align-items:center;min-width:0}
+.install code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;font-size:var(--s-1);color:var(--fg)}
+.install code i{color:var(--accent);font-style:normal}
+button,.chip{font:600 var(--s-1)/1 var(--mono);color:var(--fg);background:var(--panel);border:2px solid var(--line);padding:8px 10px;cursor:pointer;letter-spacing:.04em}
+button:hover,.chip:hover{border-color:var(--accent)}
+button:focus-visible,.chip:focus-visible,input:focus-visible,.cell:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+h2{font-size:var(--s-1);text-transform:uppercase;letter-spacing:.14em;color:var(--dim);margin:0 0 10px;font-weight:600}
+.palettes{display:flex;flex-wrap:wrap;gap:6px}
+.pal{display:flex;align-items:center;gap:8px;padding:6px 9px}
+.sw{display:flex;gap:0}
+.sw i{width:6px;height:12px;display:block}
+.swap{background:var(--panel);border:2px solid var(--line);padding:14px;overflow-x:auto}
+#swap{display:flex;gap:14px}
+#swap figure{margin:0;display:grid;gap:4px;justify-items:center;font-size:10px;color:var(--dim);cursor:pointer}
+#swap figure canvas{padding:4px}
+#swap figure[data-on=true]{color:var(--accent)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tools input{font:400 var(--s0) var(--mono);background:var(--ink);color:var(--fg);border:2px solid var(--line);padding:7px 10px;min-width:0;flex:1 1 180px}
+.cats{display:flex;flex-wrap:wrap;gap:6px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--cell,104px),1fr));gap:4px}
+.cell{background:transparent;border:2px solid transparent;display:grid;justify-items:center;gap:6px;padding:10px 4px 8px;cursor:pointer;min-width:0}
+.cell:hover{border-color:var(--line);background:var(--panel)}
+.cell:hover canvas{animation:hop .5s steps(2) infinite}
+.cell span{font-size:10.5px;color:var(--dim);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes hop{50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.cell:hover canvas{animation:none}body{transition:none}}
+.count{font-size:var(--s-1);color:var(--dim);font-variant-numeric:tabular-nums}
+.crt::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+dialog{background:var(--panel);color:var(--fg);border:2px solid var(--line);padding:0;max-width:min(860px,calc(100vw - 32px));width:100%}
+dialog::backdrop{background:rgba(5,4,8,.7)}
+.insp{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;padding:20px}
+@media (max-width:700px){.insp{grid-template-columns:1fr}}
+#big{width:100%;max-width:416px;height:auto;background:var(--ink)}
+.insp h3{margin:0;font-size:var(--s2);text-wrap:balance}
+.meta{font-size:var(--s-1);color:var(--dim);display:grid;gap:12px;min-width:0}
+.names{display:flex;flex-wrap:wrap;gap:4px}
+.names code{background:var(--ink);padding:2px 6px;font-size:11px;color:var(--fg)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}
+.slot{display:flex;gap:6px;align-items:center;font-variant-numeric:tabular-nums}
+.slot i{width:16px;height:16px;border:1px solid var(--ink);display:block}
+.close{position:absolute;top:10px;right:10px}
+footer{color:var(--dim);font-size:var(--s-1);border-top:2px solid var(--line);padding-top:16px}
+a{color:var(--accent)}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div>
+      <canvas id="logo" width="600" height="64" aria-label="OmaPix Icon"></canvas>
+      <p class="lede">Every icon in this set is a <b>64×64 grid of pixels</b>, drawn in palette slots instead of colours. That lets the whole set swap palettes the way a 16-bit console did, and re-colour itself to whichever <b>Omarchy theme</b> you switch to.</p>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div style="display:grid;gap:8px;min-width:0">
+      <button id="crt" aria-pressed="false">CRT SCANLINES</button>
+    </div>
+  </header>
+
+  <div class="install"><code id="cmd"><i>$</i> curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash</code><button id="copy">COPY</button></div>
+
+  <section>
+    <h2>Palette · the same pixels, 25 palettes</h2>
+    <div class="palettes" id="palettes"></div>
+  </section>
+
+  <section class="swap" aria-label="Palette swap preview">
+    <div id="swap"></div>
+  </section>
+
+  <section>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Search apps or icon names (firefox, org.gnome…)" aria-label="Search icons">
+      <div class="cats" id="cats"></div>
+      <button id="zoom">SIZE 64PX</button>
+    </div>
+    <p class="count" id="count"></p>
+    <div id="grid"></div>
+  </section>
+
+  <footer>Built with a 500-line pure-Python pixel engine and renderer — no Inkscape, no PIL. Install, sources and the style guide: <a href="https://github.com/Raiden-MeixElysia/OmaPixIcon" target="_blank" rel="noopener">github.com/Raiden-MeixElysia/OmaPixIcon</a></footer>
+</div>
+
+<dialog id="dlg">
+  <button class="close" id="dclose">CLOSE</button>
+  <div class="insp">
+    <canvas id="big" width="416" height="416"></canvas>
+    <div class="meta">
+      <div><h3 id="dname"></h3><div id="dcat"></div></div>
+      <div><h2>Icon names it answers to</h2><div class="names" id="dnames"></div></div>
+      <div><h2>Palette slots used</h2><div class="slots" id="dslots"></div></div>
+      <div id="dsrc"></div>
+    </div>
+  </div>
+</dialog>
+
+<script src="omapix-data.js"></script>
+<script>
+(() => {
+const D = window.OMAPIX;
+const ids = Object.keys(D.icons);
+const $ = s => document.querySelector(s);
+
+/* ---------- palette maths: a port of engine/render.py theme_palette ---------- */
+const h2r = h => { h = h.replace('#',''); if (h.length===3) h=[...h].map(c=>c+c).join(''); return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16)); };
+const r2h = c => '#'+c.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+const mix = (a,b,t) => { a=h2r(a); b=h2r(b); return r2h(a.map((v,i)=>v+(b[i]-v)*t)); };
+const lum = h => { const [r,g,b]=h2r(h).map(v=>v/255); return .2126*r+.7152*g+.0722*b; };
+function themePalette(d){
+  const g=(k,f)=>d[k]||f;
+  const fg=g('foreground','#d0d0d0'), bg=g('background','#1a1a1a');
+  const tones=[fg,d.bright_foreground,bg,d.dark_background,d.darker_background,d.light_foreground].filter(Boolean);
+  let L=tones.reduce((a,b)=>lum(b)>lum(a)?b:a), Dk=tones.reduce((a,b)=>lum(b)<lum(a)?b:a);
+  L=mix(L,'#ffffff',.25); let ink=mix(Dk,'#000000',.55); if(lum(ink)>.12) ink=mix(ink,'#000000',.5);
+  const p={W:L,w:mix(L,Dk,.28),S:mix(L,Dk,.52),s:mix(L,Dk,.74),k:mix(Dk,ink,.35),K:ink};
+  const red=g('red','#d9454f'), yel=g('yellow','#f3c640'), mag=g('magenta','#a256c4');
+  const org=g('orange',mix(red,yel,.5));
+  const bases={red,orange:org,yellow:yel,green:g('green','#4da760'),cyan:g('cyan','#2eb1ad'),blue:g('blue','#4673d8'),
+    magenta:mag,brown:g('brown',mix(org,'#000000',.45)),pink:mix(mix(red,mag,.35),'#ffffff',.25),accent:g('accent',g('blue','#4673d8'))};
+  const slots={red:'1Rr',orange:'2Oo',yellow:'3Yy',green:'4Gg',cyan:'5Cc',blue:'6Bb',magenta:'7Mm',brown:'8Nn',pink:'9Pp',accent:'0Aa'};
+  for (const [hue,[dk,b,lt]] of Object.entries(slots)){
+    const base=bases[hue], br=d['bright_'+hue];
+    p[b]=base; p[lt]=(br && Math.abs(lum(br)-lum(base))>.04)?br:mix(base,'#ffffff',.4); p[dk]=mix(base,'#000000',.42);
+  }
+  return p;
+}
+function dmg(){ const s=['#0f380f','#306230','#8bac0f','#9bbc0f']; const p={};
+  for (const [k,v] of Object.entries(D.house)){ const l=lum(v); p[k]=s[l<.2?0:l<.45?1:l<.72?2:3]; } return p; }
+
+const PALS = [{id:'house',label:'OmaPix House',pal:D.house,bg:'#1c1a24'},{id:'dmg',label:'Handheld 1989',pal:dmg(),bg:'#0f380f'}]
+  .concat(Object.entries(D.themes).map(([k,t])=>({id:k,label:k.replace(/-/g,' '),pal:themePalette(t),bg:t.background||'#1a1a1a',t})));
+
+/* ---------- drawing ---------- */
+const SH = `rgba(${D.shadow[0]},${D.shadow[1]},${D.shadow[2]},${(D.shadow[3]/255).toFixed(3)})`;
+function draw(cv, id, pal, scale){
+  const rows=D.icons[id].r, n=rows.length;
+  cv.width=cv.height=n*scale; const x=cv.getContext('2d'); x.clearRect(0,0,cv.width,cv.height);
+  for (let y=0;y<n;y++){ const r=rows[y]; for (let i=0;i<n;i++){ const c=r[i]; if(c==='.') continue;
+    x.fillStyle = c==='%'?SH:pal[c]; x.fillRect(i*scale,y*scale,scale,scale); } }
+}
+function drawText(cv, txt, scale, col, shadow){
+  const f=D.font5, w=[...txt].reduce((a,ch)=>a+(ch===' '?4:6),0)-1;
+  cv.width=(w+2)*scale; cv.height=9*scale; const x=cv.getContext('2d');
+  const pass=(dx,dy,c)=>{ x.fillStyle=c; let cx=0;
+    for (const ch of txt.toUpperCase()){ if(ch===' '){cx+=4;continue;} f[ch].forEach((row,j)=>[...row].forEach((b,i)=>{ if(b==='#') x.fillRect((cx+i+dx)*scale,(j+dy)*scale,scale,scale); })); cx+=6; } };
+  pass(1,1,shadow); pass(0,0,col);
+}
+
+/* ---------- state ---------- */
+let cur = PALS[0], cat='all', q='', scale=1, focusId='youtube';
+try { const s=localStorage.getItem('omapix-pal'); const p=PALS.find(p=>p.id===s); if(p) cur=p; } catch(e){}
+if (!D.icons[focusId]) focusId=ids[0];
+
+const cats=['all',...new Set(ids.map(i=>D.icons[i].c))];
+const nameCount=ids.reduce((a,i)=>a+D.icons[i].n.length,0);
+$('#stats').innerHTML=`<span><b>${ids.length}</b> icons</span><span><b>${nameCount}</b> icon names covered</span><span><b>64×64</b> grid</span><span><b>36</b> palette slots</span><span><b>${PALS.length}</b> palettes</span><span><b>SVG</b>, sharp at any size</span>`;
+
+function applyChrome(){
+  const p=cur.pal, root=document.documentElement.style;
+  const dark=lum(cur.bg)<.5;
+  root.setProperty('--bg',cur.bg);
+  root.setProperty('--panel',mix(cur.bg,dark?'#ffffff':'#000000',.05));
+  root.setProperty('--line',mix(cur.bg,dark?'#ffffff':'#000000',.14));
+  root.setProperty('--ink',mix(cur.bg,'#000000',dark?.35:.06));
+  root.setProperty('--fg',dark?p.W:p.K);
+  root.setProperty('--dim',mix(dark?p.W:p.K,cur.bg,.38));
+  root.setProperty('--accent',p.A);
+  document.documentElement.style.colorScheme=dark?'dark':'light';
+  drawText($('#logo'),'OMAPIX ICON',6,p.A,p['0']);
+}
+function renderPalettes(){
+  const el=$('#palettes'); el.innerHTML='';
+  PALS.forEach(P=>{ const b=document.createElement('button'); b.className='chip pal'; b.setAttribute('aria-pressed',P===cur);
+    b.innerHTML=`<span class="sw">${['K','R','O','Y','G','C','B','M','W'].map(k=>`<i style="background:${P.pal[k]}"></i>`).join('')}</span>${P.label}`;
+    b.onclick=()=>setPal(P); el.appendChild(b); });
+}
+function renderSwap(){
+  const el=$('#swap'); el.innerHTML='';
+  PALS.forEach(P=>{ const f=document.createElement('figure'); f.dataset.on=P===cur; f.title=P.label;
+    const cv=document.createElement('canvas'); draw(cv,focusId,P.pal,1); cv.style.background=P.bg;
+    const cap=document.createElement('figcaption'); cap.textContent=P.label.split(' ')[0];
+    f.append(cv,cap); f.onclick=()=>setPal(P); el.appendChild(f); });
+}
+function renderCats(){
+  const el=$('#cats'); el.innerHTML='';
+  cats.forEach(c=>{ const b=document.createElement('button'); b.className='chip'; b.textContent=c.toUpperCase(); b.setAttribute('aria-pressed',c===cat);
+    b.onclick=()=>{cat=c;renderCats();renderGrid();}; el.appendChild(b); });
+}
+function renderGrid(){
+  const el=$('#grid'); el.innerHTML=''; el.style.setProperty('--cell',(64*scale+40)+'px');
+  const qq=q.trim().toLowerCase();
+  const list=ids.filter(i=>(cat==='all'||D.icons[i].c===cat)&&(!qq||D.icons[i].l.toLowerCase().includes(qq)||D.icons[i].n.some(n=>n.toLowerCase().includes(qq))));
+  $('#count').textContent=`${list.length} of ${ids.length} icons`;
+  const frag=document.createDocumentFragment();
+  list.forEach(i=>{ const b=document.createElement('button'); b.className='cell'; b.title=D.icons[i].n.join(', ');
+    const cv=document.createElement('canvas'); draw(cv,i,cur.pal,scale);
+    const s=document.createElement('span'); s.textContent=D.icons[i].l;
+    b.append(cv,s); b.onclick=()=>inspect(i); b.onmouseenter=()=>{ if(focusId!==i){focusId=i; renderSwap();} };
+    frag.appendChild(b); });
+  el.appendChild(frag);
+}
+function setPal(P){ cur=P; try{localStorage.setItem('omapix-pal',P.id);}catch(e){} applyChrome(); renderPalettes(); renderSwap(); renderGrid(); }
+
+function inspect(id){
+  const I=D.icons[id], cv=$('#big'); draw(cv,id,cur.pal,6);
+  const x=cv.getContext('2d'); x.strokeStyle='rgba(127,127,127,.18)'; x.lineWidth=1;
+  const n=I.r.length,u=cv.width/n; for(let i=0;i<=n;i++){ x.beginPath(); x.moveTo(i*u+.5,0); x.lineTo(i*u+.5,cv.height); x.stroke(); x.beginPath(); x.moveTo(0,i*u+.5); x.lineTo(cv.width,i*u+.5); x.stroke(); }
+  $('#dname').textContent=I.l; $('#dcat').textContent=I.c.toUpperCase();
+  $('#dnames').innerHTML=I.n.map(n=>`<code>${n}</code>`).join('');
+  const cnt={}; I.r.join('').split('').forEach(c=>{ if(c!=='.'&&c!=='%') cnt[c]=(cnt[c]||0)+1; });
+  $('#dslots').innerHTML=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).map(([c,k])=>`<div class="slot"><i style="background:${cur.pal[c]}"></i><code>${c}</code>${k}px</div>`).join('');
+  $('#dsrc').textContent=`${Object.values(cnt).reduce((a,b)=>a+b,0)} pixels placed · source: ${I.s}`;
+  $('#dlg').showModal();
+}
+$('#dclose').onclick=()=>$('#dlg').close();
+$('#dlg').addEventListener('click',e=>{ if(e.target===$('#dlg')) $('#dlg').close(); });
+$('#q').addEventListener('input',e=>{q=e.target.value;renderGrid();});
+$('#zoom').onclick=()=>{ scale=scale===1?2:1; $('#zoom').textContent=`SIZE ${64*scale}PX`; renderGrid(); };
+$('#crt').onclick=()=>{ const on=document.body.classList.toggle('crt'); $('#crt').setAttribute('aria-pressed',on); };
+$('#copy').onclick=async()=>{ const t=$('#cmd').textContent.replace(/^\$\s*/,'');
+  try{ await navigator.clipboard.writeText(t); $('#copy').textContent='COPIED'; }
+  catch(e){ const r=document.createRange(); r.selectNodeContents($('#cmd')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $('#copy').textContent='SELECTED'; }
+  setTimeout(()=>$('#copy').textContent='COPY',1500); };
+
+applyChrome(); renderPalettes(); renderSwap(); renderCats(); renderGrid();
+})();
+</script>
