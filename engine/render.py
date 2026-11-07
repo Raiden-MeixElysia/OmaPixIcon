@@ -11,7 +11,7 @@ Omarchy theme (colors.toml) — a real 16-bit-console style palette swap.
   render.py --out DIR --palette dmg                             # 4-shade handheld
   render.py --png icon-id out.png --scale 8                     # single preview
 """
-import argparse, json, os, re, struct, sys, zlib
+import argparse, hashlib, json, os, re, struct, sys, zlib
 from concurrent.futures import ProcessPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -206,8 +206,8 @@ def svg(rows, pal):
 
 # ------------------------------------------------------------------ theme
 def _job(args):
-    out, ctx, rows, names, pal = args
-    d = os.path.join(out, 'scalable', ctx)
+    out, sub, ctx, rows, names, pal = args
+    d = os.path.join(out, sub, ctx)
     first = names[0] + '.svg'
     with open(os.path.join(d, first), 'w') as f:
         f.write(svg(rows, pal))
@@ -220,16 +220,22 @@ def _job(args):
 
 
 def build_theme(out, pal, inherits='Yaru-blue,Yaru,Adwaita,hicolor', jobs=None, label='house'):
-    icons = json.load(open(os.path.join(ROOT, 'data', 'icons.json')))
+    raw = open(os.path.join(ROOT, 'data', 'icons.json'), 'rb').read()
+    icons = json.loads(raw)
+    # The folder is named after the palette and the icon data, so every re-colour
+    # lands at new file paths. The Omarchy shell keeps an icon on screen (the dock)
+    # cached by its path; a new path is what makes it load the new colours.
+    tag = hashlib.sha256(json.dumps(pal, sort_keys=True).encode() + raw).hexdigest()[:8]
+    sub = f'scalable-{tag}'
     ctxs = sorted({v.get('context', 'apps') for v in icons.values()})
     for ctx in ctxs:
-        os.makedirs(os.path.join(out, 'scalable', ctx), exist_ok=True)
-    work = [(out, v.get('context', 'apps'), v['rows'], v['names'], pal) for v in icons.values()]
+        os.makedirs(os.path.join(out, sub, ctx), exist_ok=True)
+    work = [(out, sub, v.get('context', 'apps'), v['rows'], v['names'], pal) for v in icons.values()]
     with ProcessPoolExecutor(max_workers=jobs) as ex:
         total = sum(ex.map(_job, work, chunksize=16))
     ctxname = {'apps': 'Applications', 'places': 'Places'}
-    dirs = [f'scalable/{c}' for c in ctxs]
-    sect = [f'[scalable/{c}]\nSize=64\nMinSize=8\nMaxSize=1024\nContext={ctxname.get(c, c)}\nType=Scalable\n'
+    dirs = [f'{sub}/{c}' for c in ctxs]
+    sect = [f'[{sub}/{c}]\nSize=64\nMinSize=8\nMaxSize=1024\nContext={ctxname.get(c, c)}\nType=Scalable\n'
             for c in ctxs]
     with open(os.path.join(out, 'index.theme'), 'w') as f:
         f.write('[Icon Theme]\nName=OmaPixIcon\nComment=High-resolution 64px pixel icons for Omarchy '

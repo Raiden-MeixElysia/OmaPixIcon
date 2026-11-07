@@ -46,7 +46,7 @@ curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/i
 That's it. The installer:
 
 1. renders the theme into `~/.local/share/icons/OmaPixIcon` as SVG, razor-sharp at any size and HiDPI scale
-2. sets it as the GTK/Qt icon theme and restarts the Omarchy shell so the dock and launcher pick it up
+2. sets it as the GTK/Qt icon theme; the dock and launcher pick it up live, without restarting the Omarchy shell
 3. drops a hook in `~/.config/omarchy/hooks/theme-set.d/` so it survives (and follows) theme switches
 4. re-points the few launchers that hard-code an icon *file path* to a themed icon name (reversible)
 

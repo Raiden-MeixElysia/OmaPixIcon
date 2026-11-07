@@ -52,7 +52,15 @@ EOF
 }
 
 set_icon_theme() { gsettings set org.gnome.desktop.interface icon-theme "$1" 2>/dev/null || true; }
-restart_shell() { command -v omarchy-restart-shell >/dev/null && (omarchy-restart-shell >/dev/null 2>&1 &) || true; }
+# The Omarchy shell's dock and launcher index icon files by path, and rescan when
+# the app list changes. A short-lived hidden launcher triggers that rescan; it
+# finds the re-coloured icons at their new paths without restarting the shell.
+refresh_shell_icons() {
+  local f="$APPS/omapix-refresh-$$.desktop"
+  mkdir -p "$APPS"
+  printf '[Desktop Entry]\nType=Application\nName=OmaPixIcon refresh\nExec=true\nNoDisplay=true\n' >"$f"
+  (sleep 2; rm -f "$f") >/dev/null 2>&1 &
+}
 
 # ---------------------------------------------------------------- uninstall
 if [[ $ACTION == uninstall ]]; then
@@ -69,7 +77,7 @@ if [[ $ACTION == uninstall ]]; then
   fi
   rm -rf "$THEME_DIR" "$SRC" "$STATE" "$(dirname "$CONF")"
   set_icon_theme "$prev"
-  restart_shell
+  refresh_shell_icons
   update-desktop-database "$APPS" >/dev/null 2>&1 || true
   say "Restored icon theme: $prev"
   exit 0
@@ -143,7 +151,11 @@ if [[ $PALETTE == sync && -f $OT/colors.toml ]]; then
   gsettings set org.gnome.desktop.interface icon-theme "$inherit"
   sleep 0.3
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
-  (omarchy-restart-shell >/dev/null 2>&1 &)
+  # The icons now sit at new paths; have the Omarchy shell rescan them (see install.sh).
+  f="$HOME/.local/share/applications/omapix-refresh-$$.desktop"
+  mkdir -p "${f%/*}"
+  printf '[Desktop Entry]\nType=Application\nName=OmaPixIcon refresh\nExec=true\nNoDisplay=true\n' >"$f"
+  (sleep 2; rm -f "$f") >/dev/null 2>&1 &
 else
   sed -i "s/^Inherits=.*/Inherits=$inherit,Yaru,Adwaita,hicolor/" "$THEME_DIR/index.theme" 2>/dev/null
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
@@ -185,7 +197,7 @@ fi
 
 # 6. activate
 set_icon_theme OmaPixIcon
-restart_shell
+refresh_shell_icons
 count=$(python3 -c 'import json,sys;d=json.load(open(sys.argv[1]));print(len(d), sum(len(v["names"]) for v in d.values()))' "$SRC/data/icons.json")
 say "Done — ${count% *} pixel icons covering ${count#* } icon names are live."
 printf '%s  switch palettes: curl …/install.sh | bash -s -- --palette house|sync|dmg|nord|…\n  uninstall:       curl …/install.sh | bash -s -- --uninstall%s\n' "$c_dim" "$c_off"
