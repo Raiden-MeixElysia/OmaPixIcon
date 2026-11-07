@@ -140,23 +140,27 @@ system = (f"generated: {datetime.datetime.now().isoformat(timespec='seconds')}\n
           f"compared against: {src} ({len(covered)} icon names)\n"
           f"apps checked: {len(apps)}, missing: {len(rows)}\n")
 
-with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
+# Flatpak/OSTree files have mtime 0 (1970); clamp instead of raising.
+with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED, strict_timestamps=False) as z:
     z.writestr('iconrequest/apps.tsv', tsv)
     z.writestr('iconrequest/apps.md', '\n'.join(md) + '\n')
     z.writestr('iconrequest/system.txt', system)
     for r in rows:
         try:
             z.write(r['path'], f"iconrequest/desktop/{r['desktop']}")
-        except OSError:
+        except (OSError, ValueError):
             pass
         if r['ref']:
             ext = os.path.splitext(r['ref'])[1] or '.png'
             raw = r['icon'] if r['icon'] and not r['icon'].startswith('/') else r['desktop'][:-8]
             key = re.sub(r'[^\w.-]+', '_', raw)
+            arc = f'iconrequest/icons/{key}{ext}'
+            if arc in z.namelist():
+                continue
             try:
                 if os.path.getsize(r['ref']) < 5_000_000:
-                    z.write(r['ref'], f'iconrequest/icons/{key}{ext}')
-            except OSError:
+                    z.write(r['ref'], arc)
+            except (OSError, ValueError):
                 pass
 
 print(f'{len(rows)} app(s) without an OmaPix icon:')

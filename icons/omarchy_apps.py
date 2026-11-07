@@ -596,7 +596,7 @@ def disk_utility(c):
     c.outline()
 
 
-@icon('printer', ['system-config-printer', 'printer-network', 'printer-local', 'print-manager',
+@icon('printer', ['cups', 'org.cups.cupsd', 'system-config-printer', 'printer-network', 'printer-local', 'print-manager',
                   'org.kde.print-manager'], 'omarchy', 'Printer')
 def printer(c):
     c.rect(9, 3, 22, 11, 'W')

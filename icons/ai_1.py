@@ -92,7 +92,7 @@ def jan(c):
     c.outline()
 
 
-@icon('lm-studio', ['lmstudio', 'LM-Studio', 'LMStudio', 'lm-studio-bin', 'lm-studio-appimage',
+@icon('lm-studio', ['lmstudio', 'lmstudio-bin', 'ai.elementlabs.lmstudio', 'LM-Studio', 'LMStudio', 'lm-studio-bin', 'lm-studio-appimage',
                     'ai.lmstudio.LMStudio'], AI, 'LM Studio')
 def lm_studio(c):
     # staggered bars of the LM Studio mark
