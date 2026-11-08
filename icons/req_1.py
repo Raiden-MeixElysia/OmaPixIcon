@@ -242,3 +242,38 @@ def hplip(c):
     c.poly([(19, 13), (22, 13), (18, 29), (15, 29)], 'W')      # p stem
     c.poly([(20, 15), (26, 15), (24, 23), (17, 23), (18, 20.5), (21.5, 20.5), (22.5, 17.5), (19.5, 17.5)], 'W')
     c.outline()
+
+
+# ---- #5: Raiden-MeixElysia
+
+@icon('cindy', ['com.xd.cindy', 'com.xd.cindy.user', 'com.xd.cindy.user.h69297e92b23bcb60', 'Cindy',
+                'cindy-user'], 'dev', 'Cindy')
+def cindy(c):
+    # dark-haired girl on a red disc, black cat peeking from the lower left
+    c.circle(16, 16, 13, 'R')
+    c.bevel(['R'])
+    c.circle(17, 12.5, 8.5, 'k')                # hair crown
+    c.rect(9, 12, 25, 23, 'k')                  # hair falling to the shoulders
+    c.poly([(24, 8), (28.5, 13), (27, 21), (25, 23)], 'k')   # windswept strands
+    c.rrect(12, 11, 22, 21, 'p', 2)             # face
+    c.hline(13, 21, 21, 'k'); c.hline(14, 20, 21, 'p')       # chin
+    c.rect(11, 8, 23, 11, 'k')                  # fringe
+    c.pixels([(13, 12), (16, 12), (17, 12), (20, 12), (22, 12), (22, 13)], 'k')
+    c.pixels([(15, 6), (16, 6), (17, 6), (18, 7), (19, 7), (24, 10), (25, 11), (26, 13)], '6')  # blue sheen
+    c.rect(13, 14, 15, 16, 'O'); c.rect(18, 14, 20, 16, 'O')  # amber eyes
+    c.px(15, 15, 'k'); c.px(20, 15, 'k')
+    c.px(13, 14, 'W'); c.px(18, 14, 'W')
+    c.px(13, 18, 'r'); c.px(20, 18, 'r')        # blush
+    c.hline(16, 17, 19, '9')                    # mouth
+    c.rect(15, 22, 18, 23, 'p')                 # neck
+    c.rrect(10, 24, 26, 28, 'W', 2)             # sweater
+    c.hline(11, 25, 27, 'w')
+    # black cat on her shoulder
+    c.rrect(3, 20, 12, 27, 'K', 2)
+    c.poly([(3.5, 21.5), (4, 16.5), (7.5, 20)], 'K')
+    c.poly([(8, 20), (11.5, 16.5), (12, 21.5)], 'K')
+    c.rect(5, 23, 6, 24, 'Y'); c.rect(9, 23, 10, 24, 'Y')
+    c.px(5, 23, 'W'); c.px(9, 23, 'W')
+    c.hline(4, 11, 26, 'R')                     # red collar
+    c.px(7, 27, 'Y')
+    c.outline()

@@ -193,7 +193,10 @@ if ((DESKTOP_FIX)); then
     [[ $icon == /* ]] || continue
     stem=$(basename "$f" .desktop)
     cand=""
-    for n in "$stem" "${stem,,}" "$(basename "${icon%.*}")" "${stem%-desktop}"; do
+    # Per-install launchers (e.g. com.xd.cindy.user.h69297e92b23bcb60) carry a hash suffix
+    unhashed=$stem
+    [[ $stem =~ ^(.+)\.h[0-9a-f]{12,}$ ]] && unhashed=${BASH_REMATCH[1]}
+    for n in "$stem" "${stem,,}" "$unhashed" "$(basename "${icon%.*}")" "${stem%-desktop}"; do
       grep -qxF "$n" <<<"$names" && { cand=$n; break; }
     done
     [[ -n $cand ]] || continue
