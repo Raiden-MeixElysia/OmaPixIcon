@@ -277,3 +277,41 @@ def cindy(c):
     c.hline(4, 11, 26, 'R')                     # red collar
     c.px(7, 27, 'Y')
     c.outline()
+
+
+# ---- #6: Raiden-MeixElysia
+
+@icon('alma', ['Alma', 'alma-native', 'alma-desktop', 'alma.now', 'com.yetone.alma'], 'ai', 'Alma')
+def alma(c):
+    # ink line-art manga girl on a white tile: bob haircut, leaf clip, sailor collar
+    c.rrect(3, 3, 28, 28, 'W', 4)
+    c.bevel(['W'])
+    # hair: ink silhouette, soft grey fill, two strand lines
+    c.circle(16, 14.5, 9, 'K'); c.rect(7, 14, 25, 24, 'K')
+    c.circle(16, 14.5, 8, 'w'); c.rect(8, 14, 24, 23, 'w')
+    c.line(15, 7, 12, 11, 'K'); c.line(18, 7, 21, 11, 'K')
+    c.rect(8, 21, 9, 23, 'K'); c.rect(23, 21, 24, 23, 'K')   # shadowed ends of the bob
+    # face with a jagged fringe
+    c.rrect(11, 12, 21, 23, 'W', 2)
+    c.vline(10, 15, 22, 'K'); c.vline(22, 15, 22, 'K')
+    c.pixels([(11, 12), (11, 13), (12, 12), (14, 12), (14, 13), (15, 12), (17, 12), (18, 12), (18, 13),
+              (20, 12), (21, 12), (21, 13)], 'w')
+    c.pixels([(11, 14), (12, 13), (13, 13), (15, 13), (16, 13), (17, 13), (19, 13), (20, 13), (21, 14)], 'K')
+    # big eyes with a highlight
+    for x in (12, 18):
+        c.rect(x, 15, x + 2, 18, 'K')
+        c.px(x, 15, 'W'); c.px(x + 1, 18, 'S')
+    c.px(16, 20, 'K')                           # mouth
+    c.hline(13, 19, 23, 'w')                    # jaw shadow
+    # neck and sailor collar
+    c.vline(14, 23, 25, 'K'); c.vline(18, 23, 25, 'K')
+    c.poly([(13, 25), (19.5, 25), (16, 28.5)], 'K')
+    c.line(9, 28, 13, 25, 'K'); c.line(23, 28, 19, 25, 'K')
+    # green leaf clip on her left
+    c.sprite(20, 7, """
+        .G.G.
+        GgGgG
+        .GgG.
+        ..G..
+    """)
+    c.outline()

@@ -2,7 +2,7 @@
 
 # OmaPix Icon
 
-**[Open the live gallery →](https://raiden-meixelysia.github.io/OmaPixIcon/)** Browse all 1,909 icons, switch between 25 palettes and inspect each pixel.
+**[Open the live gallery →](https://raiden-meixelysia.github.io/OmaPixIcon/)** Browse all 1,910 icons, switch between 25 palettes and inspect each pixel.
 
 <p align="center"><a href="https://raiden-meixelysia.github.io/OmaPixIcon/"><img src="docs/gallery.png" alt="The OmaPix gallery with CRT scanlines on" width="100%"></a></p>
 
