@@ -24,7 +24,7 @@ out, repo = sys.argv[1], sys.argv[2]
 home = os.path.expanduser('~')
 
 # ---- 1. which icon names does OmaPix already cover?
-covered = {os.path.basename(p)[:-4] for p in glob.glob(f'{home}/.local/share/icons/OmaPixIcon/scalable/*/*.svg')}
+covered = {os.path.basename(p)[:-4] for p in glob.glob(f'{home}/.local/share/icons/OmaPixIcon/scalable*/*/*.svg')}
 src = 'installed theme'
 if not covered:
     local = f'{home}/.local/share/omapix/data/icons.json'
