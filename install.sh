@@ -55,7 +55,16 @@ set_icon_theme() { gsettings set org.gnome.desktop.interface icon-theme "$1" 2>/
 # The Omarchy shell's dock and launcher index icon files by path, and rescan when
 # the app list changes. A short-lived hidden launcher triggers that rescan; it
 # finds the re-coloured icons at their new paths without restarting the shell.
+# Fallback: if this shell doesn't rescan on app-list changes (or RESTART_SHELL=always
+# in ~/.config/omapix/config), restart the shell instead. RESTART_SHELL=never disables it.
 refresh_shell_icons() {
+  local mode=${RESTART_SHELL:-auto} shell_dir=${OMARCHY_PATH:-/usr/share/omarchy}/shell
+  [[ -f $CONF ]] && mode=$(sed -n 's/^RESTART_SHELL=//p' "$CONF" | tail -n1) && : "${mode:=auto}"
+  if [[ $mode == always ]] || { [[ $mode == auto ]] &&
+    ! grep -qs 'target: DesktopEntries.applications' "$shell_dir/services/AppLibrary.qml"; }; then
+    command -v omarchy-restart-shell >/dev/null && (omarchy-restart-shell >/dev/null 2>&1 &)
+    return 0
+  fi
   local f="$APPS/omapix-refresh-$$.desktop"
   mkdir -p "$APPS"
   printf '[Desktop Entry]\nType=Application\nName=OmaPixIcon refresh\nExec=true\nNoDisplay=true\n' >"$f"
@@ -108,7 +117,9 @@ current=$(gsettings get org.gnome.desktop.interface icon-theme 2>/dev/null | tr 
 if [[ -n $current && $current != OmaPixIcon && ! -f $STATE/previous-icon-theme ]]; then
   echo "$current" >"$STATE/previous-icon-theme"
 fi
+keep=$(grep -s '^RESTART_SHELL=' "$CONF" | tail -n1 || true)
 printf 'PALETTE=%s\n' "$PALETTE" >"$CONF"
+[[ -n $keep ]] && echo "$keep" >>"$CONF"
 
 # 3. render the theme
 inherit="Yaru-blue"
@@ -152,10 +163,17 @@ if [[ $PALETTE == sync && -f $OT/colors.toml ]]; then
   sleep 0.3
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
   # The icons now sit at new paths; have the Omarchy shell rescan them (see install.sh).
-  f="$HOME/.local/share/applications/omapix-refresh-$$.desktop"
-  mkdir -p "${f%/*}"
-  printf '[Desktop Entry]\nType=Application\nName=OmaPixIcon refresh\nExec=true\nNoDisplay=true\n' >"$f"
-  (sleep 2; rm -f "$f") >/dev/null 2>&1 &
+  # Fallback to a shell restart if this shell doesn't rescan, or RESTART_SHELL=always.
+  shell_dir=${OMARCHY_PATH:-/usr/share/omarchy}/shell
+  if [[ ${RESTART_SHELL:-auto} == always ]] || { [[ ${RESTART_SHELL:-auto} == auto ]] &&
+    ! grep -qs 'target: DesktopEntries.applications' "$shell_dir/services/AppLibrary.qml"; }; then
+    (omarchy-restart-shell >/dev/null 2>&1 &)
+  else
+    f="$HOME/.local/share/applications/omapix-refresh-$$.desktop"
+    mkdir -p "${f%/*}"
+    printf '[Desktop Entry]\nType=Application\nName=OmaPixIcon refresh\nExec=true\nNoDisplay=true\n' >"$f"
+    (sleep 2; rm -f "$f") >/dev/null 2>&1 &
+  fi
 else
   sed -i "s/^Inherits=.*/Inherits=$inherit,Yaru,Adwaita,hicolor/" "$THEME_DIR/index.theme" 2>/dev/null
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
