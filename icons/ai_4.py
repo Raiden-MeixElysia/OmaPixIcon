@@ -307,7 +307,7 @@ def go(c):
     c.outline()
 
 
-@icon('java', ['openjdk', 'java-openjdk', 'jdk', 'openjdk-java', 'jshell', 'java-runtime', 'java-17-openjdk',
+@icon('java', ['openjdk', 'java27-openjdk', 'java26-openjdk', 'java25-openjdk', 'java21-openjdk', 'jconsole', 'jconsole-java-openjdk', 'jshell-java-openjdk', 'java-openjdk', 'jdk', 'openjdk-java', 'jshell', 'java-runtime', 'java-17-openjdk',
                'java-21-openjdk', 'jdk-openjdk', 'sun-java', 'oracle-java', 'javaws'], DEV, 'Java')
 def java(c):
     # steaming coffee cup

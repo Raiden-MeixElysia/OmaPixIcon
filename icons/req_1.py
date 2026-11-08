@@ -201,3 +201,44 @@ def strata(c):
     c.poly([(16, 25), (8, 20.5), (8, 17), (20, 17), (20, 19), (16, 21), (12, 19), (12, 19.5), (16, 21.7),
             (24, 17.5), (24, 20.5)], 'k')
     c.outline()
+
+
+# ---- #4: Raiden-MeixElysia
+
+@icon('com.zacharyzhang.elyterminal', ['elyterminal', 'ely-terminal', 'ELYTerminal'], 'dev', 'ELYTerminal')
+def elyterminal(c):
+    # pink-haired girl peeking over a terminal she holds up
+    c.circle(16, 10.5, 8, 'P')                  # hair
+    c.rect(7, 10, 10, 22, 'P'); c.rect(22, 10, 25, 22, 'P')   # side locks
+    c.rect(10, 9, 22, 17, 'p')                  # face
+    c.rect(10, 6, 22, 9, 'P')                   # fringe
+    c.px(12, 9, 'P'); c.px(16, 9, 'P'); c.px(20, 9, 'P')
+    c.rect(12, 12, 13, 14, '7'); c.rect(19, 12, 20, 14, '7')  # eyes
+    c.px(12, 12, 'W'); c.px(19, 12, 'W')
+    c.px(11, 15, 'r'); c.px(21, 15, 'r')        # blush
+    c.px(21, 6, 'Y'); c.px(22, 7, 'Y')          # hair clip
+    c.bevel(['P'])
+    c.rrect(6, 17, 26, 27, 'k', 1)              # terminal
+    c.frame(6, 17, 26, 27, 'K')
+    c.sprite(9, 20, """
+        P.....
+        .P....
+        P..PPP
+    """)
+    c.rect(5, 19, 6, 21, 'p'); c.rect(26, 19, 27, 21, 'p')    # hands
+    c.outline()
+
+
+@icon('hplip', ['hp-toolbox', 'hp_logo', 'hplip-gui', 'hp-device-manager', 'HP Device Manager'],
+      'system', 'HP Device Manager')
+def hplip(c):
+    # blue globe with the italic white "hp"
+    c.circle(16, 16, 13, 'B')
+    c.ring(16, 16, 13, 11.5, '6')
+    c.bevel(['B'])
+    c.ellipse(11, 9, 5, 2, 'b')
+    c.poly([(10, 8), (13, 8), (9, 25), (6, 25)], 'W')          # h stem
+    c.poly([(11, 15), (17, 15), (15, 23), (12, 23), (13.5, 17.5), (10.5, 17.5)], 'W')
+    c.poly([(19, 13), (22, 13), (18, 29), (15, 29)], 'W')      # p stem
+    c.poly([(20, 15), (26, 15), (24, 23), (17, 23), (18, 20.5), (21.5, 20.5), (22.5, 17.5), (19.5, 17.5)], 'W')
+    c.outline()
