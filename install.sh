@@ -52,14 +52,21 @@ EOF
 }
 
 set_icon_theme() { gsettings set org.gnome.desktop.interface icon-theme "$1" 2>/dev/null || true; }
-# The Omarchy shell's dock and launcher index icon files by path, and rescan when
-# the app list changes. A short-lived hidden launcher triggers that rescan; it
-# finds the re-coloured icons at their new paths without restarting the shell.
-# Fallback: if this shell doesn't rescan on app-list changes (or RESTART_SHELL=always
-# in ~/.config/omapix/config), restart the shell instead. RESTART_SHELL=never disables it.
+# The Omarchy shell's dock and launcher index icon files by path and cache the images.
+# Newer shells watch ~/.local/state/omarchy/current/icons.revision: writing it makes
+# them reload every icon under ~/.local/share/icons and rescan the index, so that is
+# used when the shell has it. Older shells rescan when the app list changes, so a
+# short-lived hidden launcher triggers that instead.
+# Fallback: if this shell does neither (or RESTART_SHELL=always in ~/.config/omapix/config),
+# restart the shell instead. RESTART_SHELL=never disables it.
 refresh_shell_icons() {
   local mode=${RESTART_SHELL:-auto} shell_dir=${OMARCHY_PATH:-/usr/share/omarchy}/shell
   [[ -f $CONF ]] && mode=$(sed -n 's/^RESTART_SHELL=//p' "$CONF" | tail -n1) && : "${mode:=auto}"
+  if [[ $mode != always ]] && grep -qs 'icons\.revision' "$shell_dir/services/AppLibrary.qml"; then
+    mkdir -p "$HOME/.local/state/omarchy/current"
+    printf '%s\n' "${EPOCHREALTIME//[!0-9]/}" >"$HOME/.local/state/omarchy/current/icons.revision"
+    return 0
+  fi
   if [[ $mode == always ]] || { [[ $mode == auto ]] &&
     ! grep -qs 'target: DesktopEntries.applications' "$shell_dir/services/AppLibrary.qml"; }; then
     command -v omarchy-restart-shell >/dev/null && (omarchy-restart-shell >/dev/null 2>&1 &)
@@ -162,10 +169,14 @@ if [[ $PALETTE == sync && -f $OT/colors.toml ]]; then
   gsettings set org.gnome.desktop.interface icon-theme "$inherit"
   sleep 0.3
   gsettings set org.gnome.desktop.interface icon-theme OmaPixIcon
-  # The icons now sit at new paths; have the Omarchy shell rescan them (see install.sh).
-  # Fallback to a shell restart if this shell doesn't rescan, or RESTART_SHELL=always.
+  # Have the Omarchy shell reload the re-coloured icons (see install.sh): newer shells
+  # watch icons.revision, older ones rescan on app-list changes.
+  # Fallback to a shell restart if this shell does neither, or RESTART_SHELL=always.
   shell_dir=${OMARCHY_PATH:-/usr/share/omarchy}/shell
-  if [[ ${RESTART_SHELL:-auto} == always ]] || { [[ ${RESTART_SHELL:-auto} == auto ]] &&
+  if [[ ${RESTART_SHELL:-auto} != always ]] && grep -qs 'icons\.revision' "$shell_dir/services/AppLibrary.qml"; then
+    mkdir -p "$HOME/.local/state/omarchy/current"
+    printf '%s\n' "${EPOCHREALTIME//[!0-9]/}" >"$HOME/.local/state/omarchy/current/icons.revision"
+  elif [[ ${RESTART_SHELL:-auto} == always ]] || { [[ ${RESTART_SHELL:-auto} == auto ]] &&
     ! grep -qs 'target: DesktopEntries.applications' "$shell_dir/services/AppLibrary.qml"; }; then
     (omarchy-restart-shell >/dev/null 2>&1 &)
   else
