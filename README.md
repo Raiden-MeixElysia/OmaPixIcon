@@ -1,10 +1,44 @@
-<p align="center"><img src="docs/banner.png" alt="OmaPix Icon" width="100%"></p>
+<p align="center"><img src="docs/banner.png" alt="OmaPixIcon" width="100%"></p>
 
-# OmaPix Icon
+# OmaPixIcon
 
 **[Open the live gallery →](https://raiden-meixelysia.github.io/OmaPixIcon/)** Browse all 1,910 icons, switch between 25 palettes and inspect each pixel.
 
 <p align="center"><a href="https://raiden-meixelysia.github.io/OmaPixIcon/"><img src="docs/gallery.png" alt="The OmaPix gallery with CRT scanlines on" width="100%"></a></p>
+
+A 16-bit pixel-art icon pack for [Omarchy](https://omarchy.org). Every icon is a
+**64×64 high-resolution pixel sprite**, shipped as crisp SVG with an irregular silhouette (the object
+itself, never a rounded-square tile), a single ink outline, top-left lighting and
+a hard drop shadow, like a sprite from a 1993 cartridge.
+
+Pixels are stored as **palette slots** (`R` red, `r` light red, `1` dark red, `K`
+ink …) rather than RGB. The renderer maps those slots to a palette at install time,
+so the set can be palette-swapped the way SNES sprites were. In **sync**
+mode it re-colours itself to your Omarchy theme every time you switch themes.
+
+<p align="center"><img src="docs/palettes.png" alt="One icon set, many Omarchy palettes" width="100%"></p>
+
+## Install
+
+OmaPixIcon ships inside [**OmaIcon**](https://github.com/Raiden-MeixElysia/OmaIcon), an icon pack switcher for the Omarchy bar. Install it, click the grid icon in the bar, and pick OmaPixIcon:
+
+```bash
+omarchy plugin add https://github.com/Raiden-MeixElysia/OmaIcon --enable
+```
+
+Or do it in one step. This installs OmaIcon, switches to OmaPixIcon, and re-points the few launchers that hard-code an icon *file path* to a themed icon name (reversible):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash
+```
+
+Uninstall, which also restores those launchers:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash -s -- --uninstall
+```
+
+Python 3 is the only dependency, and Omarchy already ships it. No ImageMagick, Inkscape or PIL needed.
 
 ## Request an icon
 
@@ -23,36 +57,7 @@ If you'd rather not run the script, open the request anyway and include:
 - the `Icon=` line from its `.desktop` file (`grep ^Icon= ~/.local/share/applications/<app>.desktop /usr/share/applications/<app>.desktop`)
 - a link to the official logo
 
-A 16-bit pixel-art icon theme for [Omarchy](https://omarchy.org). Every icon is a
-**64×64 high-resolution pixel sprite**, shipped as crisp SVG with an irregular silhouette (the object
-itself, never a rounded-square tile), a single ink outline, top-left lighting and
-a hard drop shadow, like a sprite from a 1993 cartridge.
-
-Pixels are stored as **palette slots** (`R` red, `r` light red, `1` dark red, `K`
-ink …) rather than RGB. The renderer maps those slots to a palette at install
-time, so the set can be palette-swapped the way SNES sprites were. In **sync**
-mode it re-colours itself to your Omarchy theme every time you switch themes.
-
-<p align="center"><img src="docs/palettes.png" alt="One icon set, many Omarchy palettes" width="100%"></p>
-
-**[Live gallery with palette switcher and pixel inspector →](https://raiden-meixelysia.github.io/OmaPixIcon/)**
-
-## Install
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash
-```
-
-That's it. The installer:
-
-1. renders the theme into `~/.local/share/icons/OmaPixIcon` as SVG, razor-sharp at any size and HiDPI scale
-2. sets it as the GTK/Qt icon theme; the dock and launcher pick it up live, without restarting the Omarchy shell (if your shell version can't rescan icons, it falls back to a shell restart; set `RESTART_SHELL=always` or `never` in `~/.config/omapix/config` to override)
-3. drops a hook in `~/.config/omarchy/hooks/theme-set.d/` so it survives (and follows) theme switches
-4. re-points the few launchers that hard-code an icon *file path* to a themed icon name (reversible)
-
-Python 3 is the only dependency, and Omarchy already ships it. No ImageMagick, Inkscape or PIL needed.
-
-### Palettes
+## Palettes
 
 | option | what you get |
 |---|---|
@@ -61,12 +66,11 @@ Python 3 is the only dependency, and Omarchy already ships it. No ImageMagick, I
 | `--palette dmg` | Four shades of 1989 handheld green |
 | `--palette nord`, `gruvbox`, `tokyo-night`, … | Pinned to any of the 23 built-in Omarchy theme palettes |
 
+Pick one in the panel, or pass it to the installer:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash -s -- --palette house
-curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash -s -- --uninstall
 ```
-
-Uninstalling restores your previous icon theme and every launcher it touched.
 
 ## What's covered
 
@@ -86,7 +90,7 @@ icons/*.py        icon sources: drawing code on a 32×32 canvas (primitives + AS
 engine/pix.py     pixel engine: shapes, pixel fonts, auto-outline, bevel lighting, centring, checks
 build.py          compiles sources → data/icons.json (palette-indexed pixels) + gallery data
 engine/render.py  pure-stdlib PNG/SVG writer + palette mapping (house / dmg / any colors.toml)
-install.sh        one-click installer + Omarchy theme-switch hook
+install.sh        one-click installer: adds OmaIcon and switches to OmaPixIcon
 STYLE.md          the rules every icon follows
 ```
 
@@ -110,8 +114,10 @@ def my_app(c):
 
 ```bash
 ./build.py --only icons/mine.py --sheet /tmp/mine.png   # preview
-./build.py && ./install.sh                               # rebuild + reinstall locally
+./build.py                                               # rebuild data/icons.json
 ```
+
+OmaIcon ships a pinned copy of the pack. After a release here, run `tools/sync-pack.sh ../OmaPixIcon` in an OmaIcon checkout.
 
 ## License
 

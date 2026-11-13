@@ -27,7 +27,7 @@ home = os.path.expanduser('~')
 covered = {os.path.basename(p)[:-4] for p in glob.glob(f'{home}/.local/share/icons/OmaPixIcon/scalable*/*/*.svg')}
 src = 'installed theme'
 if not covered:
-    local = f'{home}/.local/share/omapix/data/icons.json'
+    local = f'{home}/.config/omarchy/plugins/raiden-meixelysia.omaicon/pack/data/icons.json'
     try:
         if os.path.exists(local):
             data = json.load(open(local))
