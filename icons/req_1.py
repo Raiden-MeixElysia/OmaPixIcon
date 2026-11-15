@@ -315,3 +315,57 @@ def alma(c):
         ..G..
     """)
     c.outline()
+
+
+# ---- #8: Raiden-MeixElysia
+
+@icon('unreal-engine', ['unreal-engine-5.8', 'unrealengine', 'UnrealEditor', 'EditorAppIcon', 'ue5editor',
+                        'com.epicgames.UnrealEngine'], 'games', 'Unreal Engine')
+def unreal_engine(c):
+    # white blackletter U on a dark disc, thin inner ring
+    c.circle(16, 16, 13, 'k')
+    c.bevel(['k'])
+    c.ring(16, 16, 11, 10, 'S')
+    c.sprite(9, 8, """
+        ..W.......W....
+        .WWW.....WWW...
+        WWWWW...WWWWW..
+        .WWWW...WWWW...
+        ..WWW...WWWW...
+        ..WWW...WWWW...
+        ..WWW...WWWW...
+        ..WWW...WWWW...
+        ..WWW...WWWW...
+        ..WWWW..WWWW..W
+        ..WWWWWWWWWW.WW
+        ...WWWWWWWWWWW.
+        ....WWWWWWWWW..
+        .....WWWWWW....
+    """)
+    c.outline()
+
+
+@icon('puredata', ['pd', 'pd-gui', 'pd-l2ork', 'purr-data', 'info.puredata.Pd', 'Pure Data'], 'audio', 'Pure Data')
+def puredata(c):
+    # the patch window: green bang button tethered to a "Pd" object box
+    c.rect(3, 14, 28, 27, 'W')
+    c.bevel(['W'])
+    c.rect(3, 14, 5, 15, 'k'); c.rect(26, 14, 28, 15, 'k')        # inlet tabs
+    c.rect(3, 26, 5, 27, 'k')                                      # outlet tab
+    c.sprite(9, 17, """
+        kkkkk......kk
+        kkkkkk.....kk
+        kk..kk.....kk
+        kk..kk..kkkkk
+        kkkkkk.kkkkkk
+        kkkkk..kk..kk
+        kk.....kk..kk
+        kk.....kkkkkk
+        kk......kkkkk
+    """)
+    c.rect(3, 3, 11, 10, 'G')
+    c.bevel(['G'])
+    c.circle(7, 6.5, 2.5, 'g')
+    c.ring(7, 6.5, 3, 2, 'k')
+    c.vline(7, 11, 13, 'k')
+    c.outline()
