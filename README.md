@@ -26,7 +26,7 @@ OmaPixIcon ships inside [**OmaIcon**](https://github.com/Raiden-MeixElysia/OmaIc
 omarchy plugin add https://github.com/Raiden-MeixElysia/OmaIcon --enable
 ```
 
-Or do it in one step. This installs OmaIcon, switches to OmaPixIcon, and re-points the few launchers that hard-code an icon *file path* to a themed icon name (reversible):
+Or do it in one step. This installs OmaIcon, switches to OmaPixIcon, and re-points the few launchers that hard-code an icon *file path* to a themed icon name, again after an app update rewrites one (reversible):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Raiden-MeixElysia/OmaPixIcon/main/install.sh | bash

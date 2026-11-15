@@ -9,7 +9,7 @@
 #   --palette house    the hand-tuned OmaPix vintage palette, always
 #   --palette dmg      4-shade 1989 handheld green
 #   --palette <theme>  freeze to any built-in Omarchy theme palette (nord, gruvbox, tokyo-night …)
-#   --no-desktop-fix   don't add launcher overrides for apps that hard-code an icon file path
+#   --no-desktop-fix   don't re-point launchers that hard-code an icon file path (sets DESKTOP_FIX=0)
 #   --uninstall        remove everything and go back to Omarchy's icons
 set -euo pipefail
 
@@ -84,39 +84,13 @@ fi
 rm -rf "$HOME/.local/share/omapix" "$HOME/.config/omapix" "$HOME/.config/omarchy/hooks/theme-set.d/50-omapix-icons"
 say "Added the Icons panel to the bar ${c_dim}${PLUGIN/#$HOME/~}${c_off}"
 
-# 2. apps that hard-code an icon *file path* can't be themed — give them a named icon
-if ((DESKTOP_FIX)); then
-  mkdir -p "$APPS" "$STATE/desktop-backup"
-  names=$(python3 -c 'import json,sys;d=json.load(open(sys.argv[1]));print("\n".join(n for v in d.values() for n in v["names"]))' "$PLUGIN/pack/data/icons.json")
-  fixed=0
-  for f in /usr/share/applications/*.desktop "$APPS"/*.desktop; do
-    [[ -f $f ]] || continue
-    icon=$(grep -m1 '^Icon=' "$f" | cut -d= -f2-) || true
-    [[ $icon == /* ]] || continue
-    stem=$(basename "$f" .desktop)
-    cand=""
-    # Per-install launchers (e.g. com.xd.cindy.user.h69297e92b23bcb60) carry a hash suffix
-    unhashed=$stem
-    [[ $stem =~ ^(.+)\.h[0-9a-f]{12,}$ ]] && unhashed=${BASH_REMATCH[1]}
-    for n in "$stem" "${stem,,}" "$unhashed" "$(basename "${icon%.*}")" "${stem%-desktop}"; do
-      grep -qxF "$n" <<<"$names" && { cand=$n; break; }
-    done
-    [[ -n $cand ]] || continue
-    target="$APPS/$(basename "$f")"
-    if [[ $f == "$APPS"/* ]]; then
-      cp -n "$f" "$STATE/desktop-backup/" 2>/dev/null || true
-      sed -i "0,/^Icon=.*/s##Icon=$cand#" "$f"
-    elif [[ ! -e $target ]]; then
-      sed "0,/^Icon=.*/s##Icon=$cand#" "$f" >"$target"
-      printf 'X-OmaPix-Override=true\n' >>"$target"
-    else
-      continue
-    fi
-    fixed=$((fixed + 1))
-  done
-  update-desktop-database "$APPS" >/dev/null 2>&1 || true
-  ((fixed)) && say "Re-pointed $fixed launcher(s) that used hard-coded icon paths"
-fi
+# 2. apps that hard-code an icon *file path* can't be themed. OmaIcon gives them a named icon on every
+#    apply and again when an app update rewrites its launcher, once DESKTOP_FIX=1 says it may.
+conf="$HOME/.config/omaicon/config"
+mkdir -p "$(dirname "$conf")"
+touch "$conf"
+sed -i '/^DESKTOP_FIX=/d' "$conf"
+echo "DESKTOP_FIX=$DESKTOP_FIX" >>"$conf"
 
 # 3. render and switch
 say "Rendering every icon as crisp SVG (palette: $PALETTE)"
