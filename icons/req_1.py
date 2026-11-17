@@ -369,3 +369,27 @@ def puredata(c):
     c.ring(7, 6.5, 3, 2, 'k')
     c.vline(7, 11, 13, 'k')
     c.outline()
+
+
+# ---- #9: Raiden-MeixElysia
+
+@icon('t3code', ['com.t3tools.T3Code', 't3code-bin', 't3code-nightly', 't3code-nightly-bin', 'T3 Code'],
+      'ai', 'T3 Code')
+def t3code(c):
+    # silver "T3" on a black rounded tile
+    c.rrect(4, 4, 28, 28, 'k', 4)
+    c.bevel(['k'])
+    c.sprite(7, 10, """
+        WWWWWWWWW.WWWWWWWW
+        WWWWWWWWW.WWWWWWWW
+        WWWWWWWWW.....WWW.
+        ...WWW.......WWW..
+        ...WWW......WWW...
+        ...WWW.....WWWWWW.
+        ...WWW.....WWWWWWW
+        ...www.........www
+        ...www....www..www
+        ...www....wwwwwwww
+        ...www.....wwwwww.
+    """)
+    c.outline()
