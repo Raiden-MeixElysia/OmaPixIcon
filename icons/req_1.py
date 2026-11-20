@@ -393,3 +393,29 @@ def t3code(c):
         ...www.....wwwwww.
     """)
     c.outline()
+
+
+# ---- #10: Raiden-MeixElysia
+
+@icon('uu-remote-linux', ['uuremote-viewer', 'uu-remote-linux-viewer', 'uuremote-server', 'UU Remote Linux'],
+      'network', 'UU Remote Linux')
+def uu_remote_linux(c):
+    # cyan monitor, a white arrow reaching into its blue screen
+    c.rrect(3, 5, 28, 21, 'C', 2)
+    c.bevel(['C'])
+    c.rect(5, 7, 26, 19, 'B')
+    c.rect(14, 22, 17, 24, '5')
+    c.rrect(9, 25, 22, 26, 'C', 1)
+    c.sprite(11, 8, """
+        ....WWWWWW
+        ....WWWWWW
+        .......WWW
+        ......WWWW
+        .....WW.WW
+        ....WW..WW
+        ...WW.....
+        ..WW......
+        .WW.......
+        WW........
+    """)
+    c.outline()
